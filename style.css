@@ -1,0 +1,357 @@
+/* --- GLOBAL STYLES --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Quicksand', sans-serif;
+}
+
+html, body {
+    /* THE SCROLL FIX: Forces vertical scrolling and prevents side-to-side wiggling */
+    overflow-x: hidden; 
+    overflow-y: auto !important; 
+    scroll-behavior: smooth;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0e6f6 0%, #ffb3c6 100%);
+    padding-top: 5vh; 
+    padding-bottom: 25vh; /* Added extra padding at the bottom so the buttons are never cut off */
+}
+
+/* --- ENVELOPE STYLES --- */
+.envlope-wrapper {
+    height: 600px; 
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#envelope {
+    position: relative;
+    width: 380px;  
+    height: 320px; 
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    background-color: #d9534f; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    margin-top: 250px; 
+}
+
+.front {
+    position: absolute;
+    width: 0;
+    height: 0;
+    z-index: 3;
+}
+
+.flap {
+    border-left: 190px solid transparent;
+    border-right: 190px solid transparent;
+    border-bottom: 160px solid transparent;
+    border-top: 160px solid #d9534f; 
+    transform-origin: top;
+    pointer-events: none;
+}
+
+.pocket {
+    border-left: 190px solid #f5a3a2; 
+    border-right: 190px solid #f5a3a2;
+    border-bottom: 160px solid #ff6f61; 
+    border-top: 160px solid transparent;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+/* --- UPGRADED LETTER & TEXT DECORATION --- */
+.letter {
+    position: absolute;
+    background-color: #fffafb; 
+    width: 90%;
+    left: 5%; 
+    height: 300px; 
+    top: 15px; 
+    border-radius: 6px;
+    box-shadow: 0 2px 26px rgba(0, 0, 0, 0.12);
+    border: 2px dashed #ffb3c6; 
+    
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: center;
+    padding-top: 20px; 
+    gap: 9px; 
+}
+
+.words {
+    background-color: #ffe6e6; 
+    font-family: "Dancing Script", cursive;
+    color: #c9184a; 
+    padding: 4px 18px; 
+    border-radius: 20px; 
+    white-space: nowrap; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+    
+    opacity: 0; 
+    transform: translateY(10px); 
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+}
+
+.words.line1 {
+    align-self: flex-start;
+    margin-left: 8%;
+    font-size: 1rem;
+    font-weight: bold;
+}
+.words.line2 { font-size: 1.15rem; }
+.words.line3 { font-size: 1.15rem; }
+.words.line4 { font-size: 1.15rem; }
+.words.line5 { 
+    font-size: 0.85rem; 
+    letter-spacing: 0.5px; 
+} 
+.words.line6 { font-size: 1.05rem; }
+.words.line7 { font-size: 1.05rem; }
+
+/* --- ENVELOPE & LETTER ANIMATIONS --- */
+.open .flap {
+    transform: rotateX(180deg);
+    transition: transform 0.4s ease, z-index 0.6s;
+    z-index: 1;
+}
+
+.close .flap {
+    transform: rotateX(0deg);
+    transition: transform 0.4s 0.6s ease, z-index 1s;
+    z-index: 5;
+}
+
+.close .letter {
+    transform: translateY(0px);
+    transition: transform 0.4s ease, z-index 1s;
+    z-index: 1;
+}
+
+.open .letter {
+    transform: translateY(-230px); 
+    transition: transform 0.4s 0.6s ease, z-index 0.6s;
+    z-index: 2;
+}
+
+.open .letter .words {
+    opacity: 1; 
+    transform: translateY(0); 
+}
+
+.open .letter .line1 { transition-delay: 0.8s; } 
+.open .letter .line2 { transition-delay: 1.1s; }
+.open .letter .line3 { transition-delay: 1.4s; }
+.open .letter .line4 { transition-delay: 1.7s; }
+.open .letter .line5 { transition-delay: 2.0s; }
+.open .letter .line6 { transition-delay: 2.3s; }
+.open .letter .line7 { transition-delay: 2.6s; }
+
+/* --- HEARTS --- */
+.hearts {
+    position: absolute;
+    top: 160px; 
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.heart {
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    pointer-events: none;
+}
+
+.heart:before,
+.heart:after {
+    position: absolute;
+    content: "";
+    left: 50px;
+    top: 0;
+    width: 50px;
+    height: 80px;
+    background: #e60073; 
+    border-radius: 50px 50px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+    pointer-events: none;
+}
+
+.heart:after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+.close .heart {
+    opacity: 0;
+    animation: none;
+}
+
+.a1 {
+    left: 20%;
+    transform: scale(0.6);
+    opacity: 1;
+    animation: slideUp 4s linear 1 forwards, sideSway 2s ease-in-out 4 alternate forwards;
+    animation-delay: 0.7s;
+}
+
+.a2 {
+    left: 55%;
+    transform: scale(1);
+    opacity: 1;
+    animation: slideUp 5s linear 1 forwards, sideSway 4s ease-in-out 2 alternate forwards;
+    animation-delay: 0.7s;
+}
+
+.a3 {
+    left: 10%;
+    transform: scale(0.8);
+    opacity: 1;
+    animation: slideUp 7s linear 1 forwards, sideSway 2s ease-in-out 6 alternate forwards;
+    animation-delay: 0.7s;
+}
+
+@keyframes slideUp {
+    0% { top: 0; }
+    100% { top: -600px; }
+}
+
+@keyframes sideSway {
+    0% { margin-left: 0px; }
+    100% { margin-left: 50px; }
+}
+
+.reset {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.reset button {
+    font-weight: 800;
+    transition: all 0.1s linear;
+    background-color: transparent;
+    border: solid 2px #d9534f;
+    border-radius: 4px;
+    color: #d9534f;
+    display: inline-block;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.reset button:hover {
+    background-color: #d9534f;
+    color: #fff;
+}
+
+/* --- PROPOSAL STYLES --- */
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 10; 
+    position: relative;
+    margin-top: 20px;
+}
+
+.content-wrapper img {
+    width: 200px;
+    height: auto;
+    margin-bottom: 15px;
+    z-index: 10;
+}
+
+#main-text {
+    color: #d81159;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.8);
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.5); 
+    padding: 10px 20px;
+    border-radius: 20px;
+    
+    opacity: 0; 
+    transform: translateY(15px); 
+    animation: revealText 0.8s ease forwards; 
+    animation-delay: 1.2s; 
+}
+
+@keyframes revealText {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    gap: 20px;
+    position: relative;
+    width: 100%;
+    height: 300px; 
+}
+
+.buttons button {
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 15px 35px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#yes-btn {
+    background-color: #ff4d6d;
+    color: white;
+    transform-origin: top center; 
+    z-index: 5;
+}
+
+#no-btn {
+    background-color: white;
+    color: #ff4d6d;
+    border: 2px solid #ff4d6d;
+    z-index: 15;
+}
+
+/* ========================================= */
+/* --- MOBILE RESPONSIVENESS (THE FIX!) --- */
+/* ========================================= */
+@media screen and (max-width: 500px) {
+    /* Shrinks the entire envelope section so it fits perfectly on phone screens without breaking the scroll */
+    .envlope-wrapper {
+        transform: scale(0.85);
+        transform-origin: top center;
+        height: 500px; /* Reduced height to compensate for scale */
+    }
+
+    #envelope {
+        margin-top: 180px; /* Brings it slightly higher on mobile */
+    }
+
+    /* Makes the text slightly smaller so it doesn't break out of the background boxes on narrow screens */
+    #main-text {
+        font-size: 2rem; 
+        width: 90%; /* Stops text from touching the edges of the phone */
+    }
+}
